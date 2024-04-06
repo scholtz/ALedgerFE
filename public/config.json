@@ -1,7 +1,7 @@
 {
-  "bff": "https://bff.asa.gold",
-  "env": "mainnet-v1.0",
-  "algodHost": "https://mainnet-api.algonode.cloud",
+  "bff": "https://localhost:44378",
+  "env": "testnet-v1.0",
+  "algodHost": "https://testnet-api.algonode.cloud",
   "algodPort": 443,
   "algodToken": ""
 }
