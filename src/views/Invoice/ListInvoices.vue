@@ -9,21 +9,21 @@ import { useAppStore } from '@/stores/app'
 const store = useAppStore()
 import { bffGetInvoices } from '@/scripts/axios/BFF'
 
-async function loadInvoices() {
+async function loadInvoices(offset: number, limit: number) {
   if (!store.state.authState?.arc14Header) {
     console.log('NotAuthorization')
     return
   }
-  invoices.value = await bffGetInvoices(store.state.authState.arc14Header)
+  invoices.value = await bffGetInvoices(store.state.authState.arc14Header, offset, limit)
 }
 
 watch(store.state.authState, async () => {
-  await loadInvoices()
+  await loadInvoices(0, 10)
 })
 
 onMounted(async () => {
   //InvoiceService.getInvoicesMini().then((data) => (products.value = data))
-  await loadInvoices()
+  await loadInvoices(0, 10)
 })
 
 const invoices = ref()

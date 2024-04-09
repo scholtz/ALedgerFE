@@ -88,14 +88,17 @@ const bffConfirmRFQ = async (id: string, arc14header: string) => {
   return ret.data
 }
 
-const bffGetInvoices = async (arc14header: string) => {
+const bffGetInvoices = async (arc14header: string, offset: number, limit: number) => {
   const store = useAppStore()
-  const ret = await axios.get(`${store.state.bff}/v1/Invoice/invoice?offset=0&limit=10`, {
-    headers: {
-      Authorization: arc14header,
-      contentType: 'application/json'
+  const ret = await axios.get(
+    `${store.state.bff}/v1/Invoice/invoice?offset=${offset}&limit=${limit}`,
+    {
+      headers: {
+        Authorization: arc14header,
+        contentType: 'application/json'
+      }
     }
-  })
+  )
   return ret.data
 }
 
