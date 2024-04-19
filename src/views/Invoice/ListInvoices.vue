@@ -2,12 +2,12 @@
 import Layout from '@/layouts/AuthLayout.vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-
 import { ref, onMounted, watch } from 'vue'
 //import { InvoiceService } from '@/service/InvoiceService'
 import { useAppStore } from '@/stores/app'
 const store = useAppStore()
 import { bffGetInvoices } from '@/scripts/axios/BFF'
+import { formatDate } from '@/scripts/algo/helpers.js'
 
 async function loadInvoices(offset: number, limit: number) {
   if (!store.state.authState?.arc14Header) {
