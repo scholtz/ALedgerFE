@@ -24,9 +24,9 @@ const items = ref([
     route: '/list-my-invoices'
   },
   {
-    label: 'Issue invoice',
+    label: 'New invoice',
     icon: 'pi pi-fw pi-bitcoin',
-    route: '/issue-invoice'
+    route: '/new-invoice'
   },
   {
     label: 'Manage contacts',
