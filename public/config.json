@@ -1,5 +1,5 @@
 {
-  "bff": "https://localhost:44378",
+  "bff": "https://test-bff-accounting.biatec.io/",
   "env": "testnet-v1.0",
   "algodHost": "https://testnet-api.algonode.cloud",
   "algodPort": 443,
