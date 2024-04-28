@@ -11,6 +11,45 @@ const bffAccount = async (arc14header: string) => {
   })
   return ret.data
 }
+interface IContact {
+  businessName: string
+  companyId: string
+  companyTaxId: string
+  companyVATId: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  addressId: string
+  signatureUrl: string
+}
+const bffCreateContact = async (arc14header: string, data: IContact) => {
+  const store = useAppStore()
+  const ret = await axios.post(`${store.state.bff}/v1/person`, data, {
+    headers: {
+      Authorization: arc14header
+    }
+  })
+  return ret.data
+}
+const bffUpdateContact = async (arc14header: string, id: string, data: IContact) => {
+  const store = useAppStore()
+  const ret = await axios.put(`${store.state.bff}/v1/person/${id}`, data, {
+    headers: {
+      Authorization: arc14header
+    }
+  })
+  return ret.data
+}
+const bffDeleteContact = async (arc14header: string, id: string) => {
+  const store = useAppStore()
+  const ret = await axios.delete(`${store.state.bff}/v1/person/${id}`, {
+    headers: {
+      Authorization: arc14header
+    }
+  })
+  return ret.data
+}
 
 const bffSendVerificationEmail = async (
   arc14header: string,
@@ -98,12 +137,26 @@ const bffGetInvoices = async (arc14header: string, offset: number, limit: number
   })
   return ret.data
 }
+const bffGetContacts = async (arc14header: string) => {
+  const store = useAppStore()
+  const ret = await axios.get(`${store.state.bff}/v1/person`, {
+    headers: {
+      Authorization: arc14header,
+      contentType: 'application/json'
+    }
+  })
+  return ret.data
+}
 
 export {
   bffAccount,
   bffRFQ,
   bffConfirmRFQ,
   bffSendVerificationEmail,
+  bffCreateContact,
+  bffUpdateContact,
+  bffDeleteContact,
+  bffGetContacts,
   bffSendVerifyEmailCode,
   bffGetProfile,
   bffUpdateProfile,
