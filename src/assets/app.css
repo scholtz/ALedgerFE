@@ -1,12 +1,4 @@
-.gold-logo {
-  color: #d4aa00ff;
-  font-size: xx-large;
-}
-
-.cus-container {
-  width: 100%;
-  padding-right: 20px;
-  padding-left: 20px;
-  margin-right: auto;
-  margin-left: auto;
+.p-card {
+  background-color: rgba(208, 173, 240, 0.25);
+  box-shadow: 6px -5px 11px -5px rgba(0, 0, 0, 0.75);
 }

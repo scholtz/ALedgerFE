@@ -23,6 +23,8 @@ app.use(router)
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 
+import './assets/app.css'
+
 app.component('Toast', Toast)
 app.directive('ripple', Ripple)
 app.mount('#app')
