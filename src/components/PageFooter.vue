@@ -136,9 +136,14 @@ onBeforeUnmount(() => {
           <a href="https://github.com/scholtz/ALedgerFE" target="_blank">Source code FE</a>.
           <a href="https://github.com/scholtz/ALedgerAPI" target="_blank">Source code BE</a>.
         </div>
-        <div>
+        <div class="m-2">
           Biatec accounting app is part of the Biatec Group -
           <a href="https://www.biatec.io" target="_blank">www.biatec.io</a>.
+        </div>
+
+        <div class="m-2">
+          Join our discord channel to show us support or if you need any help -
+          <a href="https://discord.gg/gvGvmZ7c8s" target="_blank">Biatec Discord</a>
         </div>
       </div>
     </template>
