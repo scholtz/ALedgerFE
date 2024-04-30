@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
           "
         >
           <div class="text-900 text-xl mb-3 font-medium ml-2">Contact US</div>
-          <a href="https://discord.gg/8m4KTcVSH9">
+          <a href="https://discord.gg/gvGvmZ7c8s">
             <Button icon="pi pi-discord" severity="info" text raised rounded aria-label="User" />
           </a>
           <a href="https://t.me/+mWQObAvGe_5lNDNk">
