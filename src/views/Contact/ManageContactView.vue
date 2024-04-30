@@ -15,6 +15,7 @@ import {
 } from '@/scripts/axios/BFF'
 import { useAppStore } from '@/stores/app'
 import { useToast } from 'primevue/usetoast'
+import Message from 'primevue/message'
 const store = useAppStore()
 const toast = useToast()
 
@@ -135,9 +136,11 @@ const loadTable = async () => {
   }
 }
 onMounted(async () => {
-  state.processing = true
-  await loadTable()
-  state.processing = false
+  if (store.state.authState.arc14Header) {
+    state.processing = true
+    await loadTable()
+    state.processing = false
+  }
 })
 
 watch(
@@ -145,6 +148,16 @@ watch(
   () => {
     if (state.selection.id) {
       state.formShown = true
+    }
+  }
+)
+watch(
+  () => store.state.authState.arc14Header,
+  async () => {
+    if (store.state.authState.arc14Header) {
+      state.processing = true
+      await loadTable()
+      state.processing = false
     }
   }
 )
@@ -169,6 +182,10 @@ const cancel = () => {
 </script>
 <template>
   <Layout :hideTopMenu="false">
+    <Message severity="warn">
+      The invoicing product is under review and may change. Please use it for testing purposes at
+      the moment.
+    </Message>
     <div class="field grid">
       <div class="col-12 lg:col-6 lg:col-offset-3">
         <Card>

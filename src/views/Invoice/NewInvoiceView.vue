@@ -2,6 +2,7 @@
 import Layout from '@/layouts/AuthLayout.vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
+import Message from 'primevue/message'
 import { computed, ref, unref } from 'vue'
 
 const name = ref('')

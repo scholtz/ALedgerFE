@@ -44,7 +44,7 @@ onBeforeUnmount(() => {
           "
         >
           <div class="text-900 text-xl mb-3 font-medium">Links</div>
-          <div class="font-style-div">
+          <!-- <div class="font-style-div">
             <RouterLink to="/about-bitatec-accounting">
               <Button link severity="secondary" size="small" class="m-0 p-0">
                 About the project
@@ -55,7 +55,7 @@ onBeforeUnmount(() => {
             <RouterLink to="/contact-us">
               <Button link severity="secondary" size="small" class="m-0 p-0"> Contact us </Button>
             </RouterLink>
-          </div>
+          </div> -->
           <div class="font-style-div">
             <RouterLink to="/gdpr/latest">
               <Button link severity="secondary" size="small" class="m-0 p-0"> GDPR policy </Button>
@@ -83,11 +83,11 @@ onBeforeUnmount(() => {
               <Button link severity="secondary" size="small" class="m-0 p-0"> Settings </Button>
             </RouterLink>
           </div>
-          <div class="font-style-div">
+          <!-- <div class="font-style-div">
             <RouterLink to="/biatec-accounting-pricing">
               <Button link severity="secondary" size="small" class="m-0 p-0"> Pricing </Button>
             </RouterLink>
-          </div>
+          </div> -->
         </div>
         <div
           :class="

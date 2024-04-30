@@ -24,11 +24,6 @@ const items = ref([
     route: '/list-my-invoices'
   },
   {
-    label: 'New invoice',
-    icon: 'pi pi-fw pi-bitcoin',
-    route: '/new-invoice'
-  },
-  {
     label: 'Manage contacts',
     icon: 'pi pi-fw pi-shopping-cart',
     route: '/manage-contacts'

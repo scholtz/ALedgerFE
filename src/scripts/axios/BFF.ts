@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { useAppStore } from '@/stores/app'
 import type IProfile from '@/types/IProfile'
+import type { IContact } from '../types/IContact'
+import type { IInvoice } from '../types/IInvoice'
 
 const bffAccount = async (arc14header: string) => {
   const store = useAppStore()
@@ -11,18 +13,7 @@ const bffAccount = async (arc14header: string) => {
   })
   return ret.data
 }
-interface IContact {
-  businessName: string
-  companyId: string
-  companyTaxId: string
-  companyVATId: string
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  addressId: string
-  signatureUrl: string
-}
+
 const bffCreateContact = async (arc14header: string, data: IContact) => {
   const store = useAppStore()
   const ret = await axios.post(`${store.state.bff}/v1/person`, data, {
@@ -32,9 +23,27 @@ const bffCreateContact = async (arc14header: string, data: IContact) => {
   })
   return ret.data
 }
+const bffCreateInvoice = async (arc14header: string, data: IInvoice) => {
+  const store = useAppStore()
+  const ret = await axios.post(`${store.state.bff}/v1/invoice`, data, {
+    headers: {
+      Authorization: arc14header
+    }
+  })
+  return ret.data
+}
 const bffUpdateContact = async (arc14header: string, id: string, data: IContact) => {
   const store = useAppStore()
   const ret = await axios.put(`${store.state.bff}/v1/person/${id}`, data, {
+    headers: {
+      Authorization: arc14header
+    }
+  })
+  return ret.data
+}
+const bffUpdateInvoice = async (arc14header: string, id: string, data: IInvoice) => {
+  const store = useAppStore()
+  const ret = await axios.put(`${store.state.bff}/v1/invoice/${id}`, data, {
     headers: {
       Authorization: arc14header
     }
@@ -127,9 +136,9 @@ const bffConfirmRFQ = async (id: string, arc14header: string) => {
   return ret.data
 }
 
-const bffGetInvoices = async (arc14header: string, offset: number, limit: number) => {
+const bffGetInvoices = async (arc14header: string) => {
   const store = useAppStore()
-  const ret = await axios.get(`${store.state.bff}/v1/invoice?offset=${offset}&limit=${limit}`, {
+  const ret = await axios.get(`${store.state.bff}/v1/invoice`, {
     headers: {
       Authorization: arc14header,
       contentType: 'application/json'
@@ -155,7 +164,9 @@ export {
   bffSendVerificationEmail,
   bffCreateContact,
   bffUpdateContact,
+  bffUpdateInvoice,
   bffDeleteContact,
+  bffCreateInvoice,
   bffGetContacts,
   bffSendVerifyEmailCode,
   bffGetProfile,

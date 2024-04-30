@@ -45,11 +45,6 @@ const makeMenu = () => {
         route: '/list-my-invoices'
       },
       {
-        label: 'New invoice',
-        icon: 'pi pi-fw pi-bitcoin',
-        route: '/new-invoice'
-      },
-      {
         label: 'Manage contacts',
         icon: 'pi pi-fw pi-phone',
         route: '/manage-contacts'
@@ -79,11 +74,6 @@ const makeMenu = () => {
         label: 'List invoices',
         icon: 'pi pi-fw pi-money-bill',
         route: '/list-my-invoices'
-      },
-      {
-        label: 'New invoice',
-        icon: 'pi pi-fw pi-bitcoin',
-        route: '/new-invoice'
       },
       {
         label: 'Manage contacts',
