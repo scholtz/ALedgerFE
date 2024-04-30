@@ -22,7 +22,7 @@ spec:
         - name: regcred
       containers:
         - name: aledger-web-main
-          image: scholtz2/aledger-fe:1.2024.02.15-main
+          image: scholtz2/aledger-fe:1.2024.04.30-main
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
