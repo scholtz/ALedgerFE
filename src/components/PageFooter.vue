@@ -123,6 +123,24 @@ onBeforeUnmount(() => {
           </a>
         </div>
       </div>
+      <div class="p-2 text-center">
+        <div>
+          This work has been performed with support from the Algorand Foundation xGov Grants Program
+          -
+          <a
+            href="https://github.com/algorandfoundation/xGov/blob/main/Proposals/xgov-89.md"
+            target="_blank"
+            >xGov#89</a
+          >.
+
+          <a href="https://github.com/scholtz/ALedgerFE" target="_blank">Source code FE</a>.
+          <a href="https://github.com/scholtz/ALedgerAPI" target="_blank">Source code BE</a>.
+        </div>
+        <div>
+          Biatec accounting app is part of the Biatec Group -
+          <a href="https://www.biatec.io" target="_blank">www.biatec.io</a>.
+        </div>
+      </div>
     </template>
   </Card>
 </template>
