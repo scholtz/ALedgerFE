@@ -37,7 +37,16 @@ const state = reactive({
       email: '',
       phone: '',
       addressId: '',
-      signatureUrl: ''
+      signatureUrl: '',
+      address: {
+        street: '',
+        streetLine2: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: '',
+        countryCode: ''
+      }
     }
   },
   filters: {
@@ -59,7 +68,16 @@ const showForm = () => {
       email: '',
       phone: '',
       addressId: '',
-      signatureUrl: ''
+      signatureUrl: '',
+      address: {
+        street: '',
+        streetLine2: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: '',
+        countryCode: ''
+      }
     }
   }
   state.formShown = true
@@ -174,7 +192,16 @@ const cancel = () => {
       email: '',
       phone: '',
       addressId: '',
-      signatureUrl: ''
+      signatureUrl: '',
+      address: {
+        street: '',
+        streetLine2: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: '',
+        countryCode: ''
+      }
     }
   }
   state.formShown = false
@@ -187,7 +214,7 @@ const cancel = () => {
       the moment.
     </Message>
     <div class="field grid">
-      <div class="col-12 lg:col-6 lg:col-offset-3">
+      <div class="col-12 lg:col-10 lg:col-offset-1">
         <Card>
           <template #content>
             <h1>Manage your contacts</h1>
@@ -195,131 +222,209 @@ const cancel = () => {
               <div class="text-right">
                 <Button @click="cancel" :disabled="state.processing">Cancel</Button>
               </div>
+              <h2 v-if="state.selection.id">Edit contact</h2>
+              <h2 v-if="!state.selection.id">Create new contact</h2>
+              <div class="grid">
+                <div class="col-12 md:col-6">
+                  <div class="field grid">
+                    <label for="businessName" class="col-12 mb-2 md:col-2 md:mb-0">
+                      Business Name
+                    </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="businessName"
+                        v-model="state.selection.data.businessName"
+                        class="w-full"
+                      />
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label for="companyId" class="col-12 mb-2 md:col-2 md:mb-0"> Company ID </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="companyId"
+                        v-model="state.selection.data.companyId"
+                        class="w-full"
+                      />
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label for="companyTaxId" class="col-12 mb-2 md:col-2 md:mb-0">
+                      Company Tax ID
+                    </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="companyTaxId"
+                        v-model="state.selection.data.companyTaxId"
+                        class="w-full"
+                      />
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label for="companyVATId" class="col-12 mb-2 md:col-2 md:mb-0">
+                      Company VAT ID
+                    </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="companyVATId"
+                        v-model="state.selection.data.companyVATId"
+                        class="w-full"
+                      />
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label for="firstName" class="col-12 mb-2 md:col-2 md:mb-0">
+                      Contact first name
+                    </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="firstName"
+                        v-model="state.selection.data.firstName"
+                        class="w-full"
+                      />
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label for="lastName" class="col-12 mb-2 md:col-2 md:mb-0">
+                      Contact last name
+                    </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="lastName"
+                        v-model="state.selection.data.lastName"
+                        class="w-full"
+                      />
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label for="email" class="col-12 mb-2 md:col-2 md:mb-0"> Email </label>
+                    <div class="col-12 md:col-10">
+                      <InputText id="email" v-model="state.selection.data.email" class="w-full" />
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label for="phone" class="col-12 mb-2 md:col-2 md:mb-0"> Phone </label>
+                    <div class="col-12 md:col-10">
+                      <InputText id="phone" v-model="state.selection.data.phone" class="w-full" />
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label for="signatureUrl" class="col-12 mb-2 md:col-2 md:mb-0">
+                      Signature Url
+                    </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="signatureUrl"
+                        v-model="state.selection.data.signatureUrl"
+                        class="w-full"
+                      />
+                    </div>
+                  </div>
 
-              <div>
-                <h2 v-if="state.selection.id">Edit contact</h2>
-                <h2 v-if="!state.selection.id">Create new contact</h2>
-                <div class="field grid">
-                  <label for="businessName" class="col-12 mb-2 md:col-2 md:mb-0">
-                    Business Name
-                  </label>
-                  <div class="col-12 md:col-10">
-                    <InputText
-                      id="businessName"
-                      v-model="state.selection.data.businessName"
-                      class="w-full"
-                    />
+                  <div class="field grid">
+                    <div class="col-12 mb-2 md:col-2 md:mb-0"></div>
+                    <div class="col-12 md:col-10">
+                      <Button
+                        v-if="state.selection.id"
+                        @click="editItem"
+                        :disabled="state.processing"
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        v-if="state.selection.id"
+                        @click="deleteItem"
+                        severity="danger"
+                        class="ml-2"
+                        :disabled="state.processing"
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        v-if="!state.selection.id"
+                        @click="createItem"
+                        :disabled="state.processing"
+                      >
+                        Create
+                      </Button>
+                    </div>
                   </div>
                 </div>
-                <div class="field grid">
-                  <label for="companyId" class="col-12 mb-2 md:col-2 md:mb-0"> Company ID </label>
-                  <div class="col-12 md:col-10">
-                    <InputText
-                      id="companyId"
-                      v-model="state.selection.data.companyId"
-                      class="w-full"
-                    />
+                <div class="col-12 md:col-6">
+                  <h2>Address</h2>
+                  <div class="field grid">
+                    <label for="street" class="col-12 mb-2 md:col-2 md:mb-0"> Street </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="businessName"
+                        v-model="state.selection.data.address.street"
+                        class="w-full"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="field grid">
-                  <label for="companyTaxId" class="col-12 mb-2 md:col-2 md:mb-0">
-                    Company Tax ID
-                  </label>
-                  <div class="col-12 md:col-10">
-                    <InputText
-                      id="companyTaxId"
-                      v-model="state.selection.data.companyTaxId"
-                      class="w-full"
-                    />
+                  <div class="field grid">
+                    <label for="streetLine2" class="col-12 mb-2 md:col-2 md:mb-0">
+                      Street line 2
+                    </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="streetLine2"
+                        v-model="state.selection.data.address.streetLine2"
+                        class="w-full"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="field grid">
-                  <label for="companyVATId" class="col-12 mb-2 md:col-2 md:mb-0">
-                    Company VAT ID
-                  </label>
-                  <div class="col-12 md:col-10">
-                    <InputText
-                      id="companyVATId"
-                      v-model="state.selection.data.companyVATId"
-                      class="w-full"
-                    />
+                  <div class="field grid">
+                    <label for="city" class="col-12 mb-2 md:col-2 md:mb-0"> City </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="city"
+                        v-model="state.selection.data.address.city"
+                        class="w-full"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="field grid">
-                  <label for="firstName" class="col-12 mb-2 md:col-2 md:mb-0">
-                    Contact first name
-                  </label>
-                  <div class="col-12 md:col-10">
-                    <InputText
-                      id="firstName"
-                      v-model="state.selection.data.firstName"
-                      class="w-full"
-                    />
+                  <div class="field grid">
+                    <label for="state" class="col-12 mb-2 md:col-2 md:mb-0"> State </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="state"
+                        v-model="state.selection.data.address.state"
+                        class="w-full"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="field grid">
-                  <label for="lastName" class="col-12 mb-2 md:col-2 md:mb-0">
-                    Contact last name
-                  </label>
-                  <div class="col-12 md:col-10">
-                    <InputText
-                      id="lastName"
-                      v-model="state.selection.data.lastName"
-                      class="w-full"
-                    />
+                  <div class="field grid">
+                    <label for="zipCode" class="col-12 mb-2 md:col-2 md:mb-0"> zipCode </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="zipCode"
+                        v-model="state.selection.data.address.zipCode"
+                        class="w-full"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="field grid">
-                  <label for="email" class="col-12 mb-2 md:col-2 md:mb-0"> Email </label>
-                  <div class="col-12 md:col-10">
-                    <InputText id="email" v-model="state.selection.data.email" class="w-full" />
+                  <div class="field grid">
+                    <label for="country" class="col-12 mb-2 md:col-2 md:mb-0"> Country </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="country"
+                        v-model="state.selection.data.address.country"
+                        class="w-full"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="field grid">
-                  <label for="phone" class="col-12 mb-2 md:col-2 md:mb-0"> Phone </label>
-                  <div class="col-12 md:col-10">
-                    <InputText id="phone" v-model="state.selection.data.phone" class="w-full" />
-                  </div>
-                </div>
-                <div class="field grid">
-                  <label for="signatureUrl" class="col-12 mb-2 md:col-2 md:mb-0">
-                    Signature Url
-                  </label>
-                  <div class="col-12 md:col-10">
-                    <InputText
-                      id="signatureUrl"
-                      v-model="state.selection.data.signatureUrl"
-                      class="w-full"
-                    />
-                  </div>
-                </div>
-
-                <div class="field grid">
-                  <div class="col-12 mb-2 md:col-2 md:mb-0"></div>
-                  <div class="col-12 md:col-10">
-                    <Button
-                      v-if="state.selection.id"
-                      @click="editItem"
-                      :disabled="state.processing"
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      v-if="state.selection.id"
-                      @click="deleteItem"
-                      severity="danger"
-                      class="ml-2"
-                      :disabled="state.processing"
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      v-if="!state.selection.id"
-                      @click="createItem"
-                      :disabled="state.processing"
-                    >
-                      Create
-                    </Button>
+                  <div class="field grid">
+                    <label for="countryCode" class="col-12 mb-2 md:col-2 md:mb-0">
+                      Country Code
+                    </label>
+                    <div class="col-12 md:col-10">
+                      <InputText
+                        id="countryCode"
+                        v-model="state.selection.data.address.countryCode"
+                        class="w-full"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

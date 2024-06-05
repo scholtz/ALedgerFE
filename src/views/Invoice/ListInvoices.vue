@@ -190,6 +190,12 @@ const addNewPaymentMethodItem = () => {
     grossAmount: 0
   })
 }
+
+const cloneInvoice = async () => {
+  state.selection.id = ''
+  await saveInvoice()
+}
+
 const saveInvoice = async () => {
   state.processing = true
   try {
@@ -719,9 +725,19 @@ const invoices = ref()
                     >
                   </div>
                   <div class="col text-right" v-if="state.selection.id">
-                    <Button :disabled="state.processing" class="m-1" @click="saveInvoice"
-                      >Update invoice</Button
+                    <Button :disabled="state.processing" class="m-1" @click="saveInvoice">
+                      Update invoice
+                    </Button>
+                  </div>
+                  <div class="col text-right" v-if="state.selection.id">
+                    <Button
+                      :disabled="state.processing"
+                      class="m-1"
+                      @click="cloneInvoice"
+                      severity="secondary"
                     >
+                      Clone invoice
+                    </Button>
                   </div>
                 </div>
               </template>
