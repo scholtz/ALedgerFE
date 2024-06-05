@@ -1,2 +1,7 @@
 {
+  "bff": "https://bff-accounting.biatec.io",
+  "env": "mainnet-v1.0",
+  "algodHost": "https://mainnet-api.algonode.cloud",
+  "algodPort": 443,
+  "algodToken": ""
 }
