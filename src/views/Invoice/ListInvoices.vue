@@ -26,7 +26,8 @@ import {
   bffCreateInvoice,
   bffUpdateInvoice,
   bffGetContacts,
-  bffGetInvoices
+  bffGetInvoices,
+  bffDownloadInvoice
 } from '@/scripts/axios/BFF'
 import delay from '@/scripts/common/delay'
 
@@ -35,6 +36,7 @@ const toast = useToast()
 const state = reactive({
   formShown: false,
   processing: false,
+  pdfLink: '',
   selection: {
     id: '',
     data: {
@@ -194,6 +196,9 @@ const addNewPaymentMethodItem = () => {
 const cloneInvoice = async () => {
   state.selection.id = ''
   await saveInvoice()
+}
+const getPDFLink = async () => {
+  state.pdfLink = await bffDownloadInvoice(store.state.authState.arc14Header, state.selection.id)
 }
 
 const saveInvoice = async () => {
@@ -739,6 +744,20 @@ const invoices = ref()
                       Clone invoice
                     </Button>
                   </div>
+                  <div class="col text-right" v-if="state.selection.id">
+                    <Button
+                      v-if="!state.pdfLink"
+                      :disabled="state.processing"
+                      class="m-1"
+                      severity="secondary"
+                      @click="getPDFLink"
+                    >
+                      Get PDF link
+                    </Button>
+                    <a v-if="state.pdfLink" :href="state.pdfLink">
+                      <Button class="m-1" severity="primary"> Download PDF </Button>
+                    </a>
+                  </div>
                 </div>
               </template>
             </Card>
@@ -776,17 +795,17 @@ const invoices = ref()
               </div>
             </template>
             <template #empty> No invoice </template>
-            <Column field="created" header="Created">
+            <Column field="created" header="Created" sortable>
               <template #body="slotProps">
                 {{ new Date(slotProps.data.created).toLocaleDateString() }}</template
               >
             </Column>
-            <Column field="updated" header="Last update">
+            <Column field="updated" header="Last update" sortable>
               <template #body="slotProps">
                 {{ new Date(slotProps.data.updated).toLocaleDateString() }}</template
               >
             </Column>
-            <Column field="data.invoiceNumber" header="Number"></Column>
+            <Column field="data.invoiceNumber" header="Number" sortable></Column>
           </DataTable>
         </div>
       </template>

@@ -50,6 +50,15 @@ const bffUpdateInvoice = async (arc14header: string, id: string, data: IInvoice)
   })
   return ret.data
 }
+const bffDownloadInvoice = async (arc14header: string, id: string) => {
+  const store = useAppStore()
+  const ret = await axios.get(`${store.state.bff}/v1/PDF/${id}`, {
+    headers: {
+      Authorization: arc14header
+    }
+  })
+  return ret.data
+}
 const bffDeleteContact = async (arc14header: string, id: string) => {
   const store = useAppStore()
   const ret = await axios.delete(`${store.state.bff}/v1/person/${id}`, {
@@ -138,7 +147,7 @@ const bffConfirmRFQ = async (id: string, arc14header: string) => {
 
 const bffGetInvoices = async (arc14header: string) => {
   const store = useAppStore()
-  const ret = await axios.get(`${store.state.bff}/v1/invoice`, {
+  const ret = await axios.get(`${store.state.bff}/v1/invoice?limit=1000&sort=updated desc`, {
     headers: {
       Authorization: arc14header,
       contentType: 'application/json'
@@ -171,5 +180,6 @@ export {
   bffSendVerifyEmailCode,
   bffGetProfile,
   bffUpdateProfile,
-  bffGetInvoices
+  bffGetInvoices,
+  bffDownloadInvoice
 }
