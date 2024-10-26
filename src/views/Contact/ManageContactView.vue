@@ -25,6 +25,7 @@ function delay(ms: number) {
 const state = reactive({
   contacts: [],
   processing: false,
+  loadingContacts: false,
   selection: {
     id: '',
     data: {
@@ -144,8 +145,11 @@ const deleteItem = async () => {
 }
 const loadTable = async () => {
   try {
+    state.loadingContacts = true;
     state.contacts = await bffGetContacts(store.state.authState.arc14Header)
+    state.loadingContacts = false;
   } catch (e: any) {
+    state.loadingContacts = false;
     toast.add({
       severity: 'error',
       detail: 'Error occured: ' + (e.message ?? e),
@@ -435,12 +439,15 @@ const cancel = () => {
               :value="state.contacts"
               responsive-layout="scroll"
               selection-mode="single"
+              :loading="state.loadingContacts"
               :paginator="true"
               :rows="20"
               v-model:filters="state.filters"
               filterDisplay="menu"
               :globalFilterFields="['data.businessName', 'data.firstName', 'data.lastName']"
             >
+              <template #loading> Loading contact list. Please wait. </template>
+
               <template #header>
                 <div class="grid" v-if="state.filters['global']">
                   <div class="col">

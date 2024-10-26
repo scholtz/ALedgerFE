@@ -36,6 +36,7 @@ const toast = useToast()
 const state = reactive({
   formShown: false,
   processing: false,
+  loadingInvoices: false,
   pdfLink: '',
   selection: {
     id: '',
@@ -71,11 +72,23 @@ const state = reactive({
 })
 
 async function loadInvoices() {
-  if (!store.state.authState?.arc14Header) {
-    console.log('NotAuthorization')
-    return
+  try{
+    state.loadingInvoices = true;
+    if (!store.state.authState?.arc14Header) {
+      console.log('NotAuthorization')
+      return
+    }
+    invoices.value = await bffGetInvoices(store.state.authState.arc14Header)
+    state.loadingInvoices = false;
+  } catch (e: any) {
+    state.loadingInvoices = false;
+    toast.add({
+      severity: 'error',
+      detail: 'Error occured: ' + (e.message ?? e),
+      life: 5000
+    })
   }
-  invoices.value = await bffGetInvoices(store.state.authState.arc14Header)
+
 }
 
 async function loadContacts() {
@@ -777,8 +790,10 @@ const invoices = ref()
             :rows="20"
             :rowsPerPageOptions="[5, 10, 20, 50]"
             tableStyle="min-width: 50rem"
+            :loading="state.loadingInvoices"
           >
-            <template #header>
+          <template #loading> Loading invoices. Please wait. </template>
+          <template #header>
               <div class="grid" v-if="state.filters['global']">
                 <div class="col">
                   <span class="p-input-icon-left">
