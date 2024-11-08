@@ -3,6 +3,7 @@ import { useAppStore } from '@/stores/app'
 import type IProfile from '@/types/IProfile'
 import type { IContact } from '../types/IContact'
 import type { IInvoice } from '../types/IInvoice'
+import type IPayment from '@/types/IPayment'
 
 const bffAccount = async (arc14header: string) => {
   const store = useAppStore()
@@ -121,6 +122,17 @@ const bffUpdateProfile = async (profile: IProfile, arc14header: string) => {
   return ret.data
 }
 
+const bffPostPayment = async (payment: IPayment, invoice: string, arc14header: string) => {
+  const store = useAppStore()
+  const ret = await axios.post(`${store.state.bff}/v1/payment/${invoice}`, payment, {
+    headers: {
+      Authorization: arc14header,
+      contentType: 'application/json'
+    }
+  })
+  return ret.data
+}
+
 const bffRFQ = async (amount: number, currency: string, arc14header: string) => {
   const store = useAppStore()
   const ret = await axios.get(
@@ -145,6 +157,16 @@ const bffConfirmRFQ = async (id: string, arc14header: string) => {
   return ret.data
 }
 
+const bffGetInvoice = async (arc14header: string, invoiceId: string) => {
+  const store = useAppStore()
+  const ret = await axios.get(`${store.state.bff}/v1/invoice/${invoiceId}`, {
+    headers: {
+      Authorization: arc14header,
+      contentType: 'application/json'
+    }
+  })
+  return ret.data
+}
 const bffGetInvoices = async (arc14header: string) => {
   const store = useAppStore()
   const ret = await axios.get(`${store.state.bff}/v1/invoice?limit=1000&sort=updated desc`, {
@@ -180,6 +202,8 @@ export {
   bffSendVerifyEmailCode,
   bffGetProfile,
   bffUpdateProfile,
+  bffGetInvoice,
   bffGetInvoices,
-  bffDownloadInvoice
+  bffDownloadInvoice,
+  bffPostPayment
 }

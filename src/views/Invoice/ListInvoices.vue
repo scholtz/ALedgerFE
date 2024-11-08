@@ -11,6 +11,10 @@ import Dropdown from 'primevue/dropdown'
 import Textarea from 'primevue/textarea'
 import Checkbox from 'primevue/checkbox'
 import Message from 'primevue/message'
+import InputGroup from 'primevue/inputgroup'
+import InputGroupAddon from 'primevue/inputgroupaddon'
+import Chip from 'primevue/chip'
+import Badge from 'primevue/badge'
 
 import type { IItem } from '@/scripts/types/IItem'
 import type { IPaymentMethod } from '@/scripts/types/IPaymentMethod'
@@ -37,6 +41,7 @@ const state = reactive({
   formShown: false,
   processing: false,
   loadingInvoices: false,
+  loadingInvoice: false,
   pdfLink: '',
   selection: {
     id: '',
@@ -58,6 +63,7 @@ const state = reactive({
       currency: 'EUR'
     } as IInvoice
   },
+  idIsModifier: false,
   filters: {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS }
   },
@@ -72,23 +78,22 @@ const state = reactive({
 })
 
 async function loadInvoices() {
-  try{
-    state.loadingInvoices = true;
+  try {
+    state.loadingInvoices = true
     if (!store.state.authState?.arc14Header) {
       console.log('NotAuthorization')
       return
     }
     invoices.value = await bffGetInvoices(store.state.authState.arc14Header)
-    state.loadingInvoices = false;
+    state.loadingInvoices = false
   } catch (e: any) {
-    state.loadingInvoices = false;
+    state.loadingInvoices = false
     toast.add({
       severity: 'error',
       detail: 'Error occured: ' + (e.message ?? e),
       life: 5000
     })
   }
-
 }
 
 async function loadContacts() {
@@ -138,6 +143,7 @@ const showForm = () => {
 
 const cancel = () => {
   state.formShown = false
+  state.loadingInvoice = true
   state.selection = {
     id: '',
     data: {
@@ -158,6 +164,7 @@ const cancel = () => {
       currency: 'EUR'
     } as IInvoice
   }
+  state.loadingInvoice = false
 }
 
 watch(
@@ -247,6 +254,14 @@ watch(
     state.selection.data.invoiceNumber = `${new Date().getFullYear() - 2000}${('00000000' + state.selection.data.invoiceNumberNum).slice(-8)}`
   }
 )
+watch(
+  () => state.selection.data.invoiceNumber,
+  () => {
+    if (!state.loadingInvoices) {
+      state.idIsModifier = true
+    }
+  }
+)
 
 watch(
   () => state.selection.id,
@@ -260,10 +275,6 @@ const invoices = ref()
 </script>
 <template>
   <Layout :hideTopMenu="false">
-    <Message severity="warn">
-      The invoicing product is under review and may change. Please use it for testing purposes at
-      the moment.
-    </Message>
     <Card>
       <template #content>
         <div v-if="state.formShown" class="grid">
@@ -271,7 +282,10 @@ const invoices = ref()
             <h1>Create new invoice</h1>
           </div>
           <div class="col-6 text-right">
-            <Button @click="cancel" :disabled="state.processing">Cancel</Button>
+            <RouterLink :to="'/payments/' + state.selection.id">
+              <Button :disabled="state.processing" class="m-2">Payments</Button>
+            </RouterLink>
+            <Button @click="cancel" :disabled="state.processing" class="m-2">Cancel</Button>
           </div>
 
           <div class="col-8 grid">
@@ -792,17 +806,17 @@ const invoices = ref()
             tableStyle="min-width: 50rem"
             :loading="state.loadingInvoices"
           >
-          <template #loading> Loading invoices. Please wait. </template>
-          <template #header>
+            <template #loading> Loading invoices. Please wait. </template>
+            <template #header>
               <div class="grid" v-if="state.filters['global']">
                 <div class="col">
-                  <span class="p-input-icon-left">
-                    <i class="pi pi-search" />
+                  <InputGroup>
+                    <InputGroupAddon><i class="pi pi-search" /></InputGroupAddon>
                     <InputText
                       v-model="state.filters['global'].value"
                       placeholder="Keyword Search"
                     />
-                  </span>
+                  </InputGroup>
                 </div>
                 <div class="col text-right">
                   <Button @click="showForm">Create new invoice</Button>
@@ -819,6 +833,38 @@ const invoices = ref()
               <template #body="slotProps">
                 {{ new Date(slotProps.data.updated).toLocaleDateString() }}</template
               >
+            </Column>
+            <Column field="state" header="State" sortable>
+              <template #body="slotProps">
+                <Badge
+                  v-if="slotProps?.data?.data.paymentInfo.status == 'UNPAID'"
+                  size="large"
+                  value="Not paid"
+                  icon="pi pi-cross"
+                  severity="danger"
+                ></Badge>
+                <Badge
+                  v-else-if="slotProps?.data?.data.paymentInfo.status == 'PAID'"
+                  size="large"
+                  value="Paid"
+                  icon="pi pi-check"
+                  severity="success"
+                ></Badge>
+                <Badge
+                  v-else-if="slotProps?.data?.data.paymentInfo.status == 'PARTIALPAID'"
+                  size="large"
+                  value="Partialy Paid"
+                  icon="pi pi-check"
+                  severity="warning"
+                ></Badge>
+                <Badge
+                  v-else
+                  size="xlarge"
+                  value="Unknown"
+                  icon="pi pi-check"
+                  severity="danger"
+                ></Badge>
+              </template>
             </Column>
             <Column field="data.invoiceNumber" header="Number" sortable></Column>
           </DataTable>

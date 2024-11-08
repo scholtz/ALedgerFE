@@ -5,6 +5,8 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
+import InputGroup from 'primevue/inputgroup'
+import InputGroupAddon from 'primevue/inputgroupaddon'
 import InputText from 'primevue/inputtext'
 import { FilterMatchMode } from 'primevue/api'
 import {
@@ -145,11 +147,11 @@ const deleteItem = async () => {
 }
 const loadTable = async () => {
   try {
-    state.loadingContacts = true;
+    state.loadingContacts = true
     state.contacts = await bffGetContacts(store.state.authState.arc14Header)
-    state.loadingContacts = false;
+    state.loadingContacts = false
   } catch (e: any) {
-    state.loadingContacts = false;
+    state.loadingContacts = false
     toast.add({
       severity: 'error',
       detail: 'Error occured: ' + (e.message ?? e),
@@ -213,10 +215,6 @@ const cancel = () => {
 </script>
 <template>
   <Layout :hideTopMenu="false">
-    <Message severity="warn">
-      The invoicing product is under review and may change. Please use it for testing purposes at
-      the moment.
-    </Message>
     <div class="field grid">
       <div class="col-12 lg:col-10 lg:col-offset-1">
         <Card>
@@ -451,13 +449,13 @@ const cancel = () => {
               <template #header>
                 <div class="grid" v-if="state.filters['global']">
                   <div class="col">
-                    <span class="p-input-icon-left">
-                      <i class="pi pi-search" />
+                    <InputGroup>
+                      <InputGroupAddon><i class="pi pi-search" /></InputGroupAddon>
                       <InputText
                         v-model="state.filters['global'].value"
                         placeholder="Keyword Search"
                       />
-                    </span>
+                    </InputGroup>
                   </div>
                   <div class="col text-right">
                     <Button @click="showForm">Add new</Button>

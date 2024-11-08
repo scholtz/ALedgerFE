@@ -2,8 +2,10 @@
 import Layout from '@/layouts/PublicLayout.vue'
 import AOS from 'aos'
 import Card from 'primevue/card'
+import Button from 'primevue/button'
 import 'aos/dist/aos.css'
 import { onMounted } from 'vue'
+import { useAppStore } from '@/stores/app'
 onMounted(() => {
   setTimeout(() => {
     AOS.init({
@@ -13,7 +15,10 @@ onMounted(() => {
     })
   }, 10)
 })
-
+const store = useAppStore()
+const getSwaggerUrl = () => {
+  return store.state.bff + '/swagger'
+}
 /* eslint-disable no-useless-escape */
 </script>
 <template>
@@ -59,6 +64,9 @@ onMounted(() => {
               <h2 class="text-primary">Accounting Ledger API</h2>
               Issue invoices using the API service. Track the payment and invoice status of algorand
               issued invoices.
+              <span v-if="store.state.bff"
+                >See <a :href="getSwaggerUrl()"><Button severity="info">Swagger</Button></a></span
+              >
             </div>
             <div class="col-12 md:col-6 text-right">
               <img height="150" src="/images/policy/3.png" alt="image" data-aos="fade-up" />

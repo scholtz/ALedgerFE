@@ -23,6 +23,11 @@ const router = createRouter({
       component: () => import('../views/Invoice/ListInvoices.vue')
     },
     {
+      path: '/payments/:invoiceId',
+      name: 'invoicePayments',
+      component: () => import('../views/Invoice/ManagePayments.vue')
+    },
+    {
       path: '/manage-contacts',
       name: 'manage-contacts',
       component: () => import('../views/Contact/ManageContactView.vue')
