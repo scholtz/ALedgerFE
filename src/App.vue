@@ -6,6 +6,11 @@ console.log('store.init', store)
 
 import { Gradient } from 'whatamesh'
 import { onMounted, watch } from 'vue'
+import moment from 'moment'
+
+Date.prototype.toJSON = function () {
+  return moment(this).format()
+}
 
 let gradient = new Gradient()
 onMounted(() => {
